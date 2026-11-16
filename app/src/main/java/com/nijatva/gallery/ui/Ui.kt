@@ -48,7 +48,13 @@ fun rounded(context: Context, fill: Int, radiusDp: Int, stroke: Int? = null): Gr
         if (stroke != null) setStroke(context.dp(1), stroke)
     }
 
-/** A theme or accent pill, filled with the accent when it is the selected one. */
+/**
+ * A theme or accent pill, filled with the accent when it is the selected one.
+ *
+ * One line, and the text shrinks to fit rather than wrapping: with four choices -
+ * System, Dark, Light, Black - the row is wider than a phone, and a wrapped label
+ * turns the last pill into a circle reading "Bl ac k".
+ */
 fun pill(context: Context, value: CharSequence, selected: Boolean): TextView =
     label(
         context,
@@ -58,7 +64,13 @@ fun pill(context: Context, value: CharSequence, selected: Boolean): TextView =
         medium = true,
     ).apply {
         gravity = android.view.Gravity.CENTER
-        setPadding(context.dp(16), context.dp(9), context.dp(16), context.dp(9))
+        maxLines = 1
+        isSingleLine = true
+        ellipsize = android.text.TextUtils.TruncateAt.END
+        androidx.core.widget.TextViewCompat.setAutoSizeTextTypeUniformWithConfiguration(
+            this, 10, 14, 1, TypedValue.COMPLEX_UNIT_SP,
+        )
+        setPadding(context.dp(12), context.dp(9), context.dp(12), context.dp(9))
         background = if (selected) {
             rounded(context, Palette.accent, 100)
         } else {

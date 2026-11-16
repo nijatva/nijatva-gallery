@@ -62,7 +62,7 @@ class AppearanceSheet(
             orientation = LinearLayout.HORIZONTAL
             setPadding(0, context.dp(10), 0, context.dp(20))
         }
-        ThemeChoice.values().forEach { choice ->
+        ThemeChoice.values().forEachIndexed { index, choice ->
             val pill = pill(context, choice.label, choice == settings.theme)
             pill.setOnClickListener {
                 settings = settings.copy(theme = choice)
@@ -70,12 +70,13 @@ class AppearanceSheet(
                 onChange(settings)
             }
             themePills += choice to pill
+            // Equal shares of the row, so four choices fit a narrow phone instead of
+            // pushing the last one off the edge.
             themeRow.addView(
                 pill,
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                ).apply { rightMargin = context.dp(8) },
+                LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                    if (index < ThemeChoice.values().lastIndex) marginEnd = context.dp(6)
+                },
             )
         }
         root.addView(themeRow)
@@ -86,7 +87,7 @@ class AppearanceSheet(
             orientation = LinearLayout.HORIZONTAL
             setPadding(0, context.dp(10), 0, context.dp(16))
         }
-        AccentChoice.values().forEach { choice ->
+        AccentChoice.values().forEachIndexed { index, choice ->
             val swatch = pill(context, choice.label, choice == settings.accent)
             swatch.setOnClickListener {
                 settings = settings.copy(accent = choice)
@@ -96,10 +97,9 @@ class AppearanceSheet(
             accentPills += choice to swatch
             accentRow.addView(
                 swatch,
-                LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                ).apply { rightMargin = context.dp(8) },
+                LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f).apply {
+                    if (index < AccentChoice.values().lastIndex) marginEnd = context.dp(6)
+                },
             )
         }
         root.addView(accentRow)
