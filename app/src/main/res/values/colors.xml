@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The dark slate behind the flower mark, taken from the icon art itself. -->
+    <color name="ic_launcher_background">#454E57</color>
+</resources>

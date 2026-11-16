@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Only the name lives here: every other string is written where it is used,
+         because the screens are built in Kotlin and a string table that mirrors
+         the code only makes you look in two places. -->
+</resources>

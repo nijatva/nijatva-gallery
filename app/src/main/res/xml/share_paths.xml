@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- The stripped copy handed to a share target. Cache only: nothing written
+         here outlives the app. -->
+    <cache-path name="shared" path="share/" />
+</paths>
