@@ -43,6 +43,7 @@ class HomePage(context: Context, private val host: Host) : LinearLayout(context)
             label(context, "Gallery", 27f, Palette.onSurface, medium = true),
             LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f),
         )
+        titleRow.addView(cameraButton())
         titleRow.addView(moreButton())
         header.addView(titleRow)
 
@@ -119,6 +120,19 @@ class HomePage(context: Context, private val host: Host) : LinearLayout(context)
         SortOrder.OLDEST -> "Oldest"
         SortOrder.NAME -> "Name"
         SortOrder.LARGEST -> "Largest"
+    }
+
+    /** Camera entry: the suite is meant to be used as one set of apps. */
+    private fun cameraButton(): View = FrameLayout(context).apply {
+        layoutParams = LinearLayout.LayoutParams(context.dp(40), context.dp(40)).apply {
+            rightMargin = context.dp(2)
+        }
+        isClickable = true
+        setOnClickListener { host.openCamera() }
+        addView(
+            Glyph(context, Glyph.Kind.CAMERA, Palette.onSurface, 20),
+            FrameLayout.LayoutParams(context.dp(20), context.dp(20), Gravity.CENTER),
+        )
     }
 
     private fun moreButton(): View = FrameLayout(context).apply {

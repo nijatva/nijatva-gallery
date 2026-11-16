@@ -24,7 +24,7 @@ class Glyph(
     private val sizeDp: Int = 24,
 ) : View(context) {
 
-    enum class Kind { BACK, MORE, GRID, FOLDERS, GEAR, SHARE, INFO, PLAY, CLOSE, CHECK, THEME, SETTINGS }
+    enum class Kind { BACK, MORE, GRID, FOLDERS, GEAR, SHARE, INFO, PLAY, CLOSE, CHECK, THEME, SETTINGS, CAMERA }
 
     private val stroke = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
@@ -100,6 +100,13 @@ class Glyph(
                     lineTo(right, top)
                 }
                 canvas.drawPath(tick, stroke)
+            }
+
+            Kind.CAMERA -> {
+                // Body, then a lens, the same shape the camera app's own tile uses.
+                val body = android.graphics.RectF(left, top + s * 0.16f, right, bottom - s * 0.08f)
+                canvas.drawRoundRect(body, s * 0.12f, s * 0.12f, stroke)
+                canvas.drawCircle(w / 2f, h * 0.54f, s * 0.17f, stroke)
             }
 
             Kind.GRID -> {

@@ -67,6 +67,9 @@ interface Host {
 
     fun openLink(url: String)
 
+    /** Opens the camera app, preferring the rest of the Nijatva suite. */
+    fun openCamera()
+
     /** Copies the file out, strips it if the setting is on, then opens the share sheet. */
     fun share(item: MediaItem)
 

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Typeface
 import android.net.Uri
+import android.provider.MediaStore
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -302,6 +303,36 @@ class MainActivity : AppCompatActivity(), Host {
     }
 
     override fun isLibraryLoading(): Boolean = loading
+
+    /**
+     * Camera entry.
+     *
+     * The Nijatva Camera is asked for by package name first, so a phone with the
+     * whole suite installed never sees a chooser. A phone without it falls back to
+     * whatever handles ACTION_IMAGE_CAPTURE, and then to the gallery's own gallery
+     * of apps.
+     */
+    override fun openCamera() {
+        val cameraMain = Intent(Intent.ACTION_MAIN)
+            .addCategory(Intent.CATEGORY_LAUNCHER)
+            .setPackage("com.nijatva.camera")
+        if (launch(cameraMain)) return
+
+        val capture = Intent(MediaStore.INTENT_ACTION_STILL_IMAGE_CAMERA)
+        if (launch(capture)) return
+
+        val captureAny = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        if (launch(captureAny)) return
+
+        toast("No camera app found")
+    }
+
+    private fun launch(intent: Intent): Boolean = try {
+        startActivity(intent)
+        true
+    } catch (_: ActivityNotFoundException) {
+        false
+    }
 
     override fun openLink(url: String) {
         try {
