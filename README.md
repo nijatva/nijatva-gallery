@@ -66,6 +66,29 @@ site's Appearance panel:
 The Developer page carries the site's figures with the date they were read, because the
 app has no way to fetch them.
 
+## Web build
+
+`web/index.html` is the same gallery rebuilt for a browser tab: one self-contained file,
+no build step, no server. Open it, pick a folder (or drop files on the page) and it reads
+them locally — nothing is uploaded, and there is no network request in the file at all.
+
+| In the browser | How it maps to the app |
+|---|---|
+| Photos / Folders tabs | Same two tabs, same four-up folder covers and `702 items · 2.35 GB` line |
+| Viewer | Swipe (drag), wheel or double-tap to zoom, arrow keys, Esc |
+| Details | Size, dimensions, date, and camera/lens/exposure read from the JPEG's own EXIF |
+| Save a copy | Strips every APP1 (EXIF/XMP) and APP13 (IPTC) segment from the JPEG, like the app strips the copy it shares |
+| Appearance | The same four themes and three accents, saved in `localStorage` |
+| Edit | Says so honestly: editing lives in the Nijatva Photo Editor app, not in a tab |
+
+What a browser cannot do, and the page does not pretend to: open a folder without your
+choosing it (no `showDirectoryPicker` in Firefox or Safari, so it falls back to a folder
+input), write to your library, or see anything outside the folder you picked.
+
+Tests: `npm install jsdom && node web/test/run.js` — nineteen checks over the grid, folder
+grouping, viewer, paging, details and appearance, run against the real file in a simulated
+DOM.
+
 ## Build
 
 1. Open the project folder in Android Studio (Ladybug or newer).
@@ -126,4 +149,4 @@ Apache License 2.0. See [LICENSE](LICENSE).
 The launcher icon is a white flower mark on dark slate, kept as `assets/icon-source.png`
 with generated adaptive-icon layers in `res/mipmap-*`.
 
-Nijatva · India
+Nijatva · a DEVIRA project · India
