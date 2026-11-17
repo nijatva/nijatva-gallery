@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.4 — 17 November 2026
+
+- An **Edit** button in the viewer. It hands the photo to Nijatva Photo Editor
+  (`ACTION_EDIT`, `image/*`) when that app is installed, and to any other editor through
+  the chooser when it is not. Videos say so instead of opening an editor that cannot use
+  them. The gallery never depends on the editor being present.
+
 ## 0.1.3 — 17 November 2026
 
 - Developer page and the feedback mail now use `Vasudev.work@rediffmail.com`, the address

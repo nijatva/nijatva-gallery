@@ -15,6 +15,7 @@ Kotlin, no Compose, no image-loading library, no database. Plain programmatic vi
 | Album | One folder, same grid, same viewer |
 | Viewer | Swipe between items, pinch and double-tap to zoom, video with its own controls |
 | Details | Size, dimensions, date, and the camera settings read from the file's own EXIF |
+| Edit | Hands the photo to Nijatva Photo Editor, or to any other editor through the chooser |
 | Settings | Appearance, sort order, grid columns, videos on or off, EXIF stripping, autoplay |
 | Opened from elsewhere | `VIEW` of a photo or video from another app, with Back returning to the grid |
 

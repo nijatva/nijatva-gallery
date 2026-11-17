@@ -20,6 +20,7 @@ import android.widget.VideoView
 import androidx.exifinterface.media.ExifInterface
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.nijatva.gallery.NijatvaMediaIntents
 import com.nijatva.gallery.model.MediaItem
 import com.nijatva.gallery.util.Format
 import java.util.concurrent.Executors
@@ -97,6 +98,23 @@ class ViewerPage(
 
     private fun current(): MediaItem? = items.getOrNull(pager.currentItem)
 
+    /**
+     * Hands the photo to the Nijatva Photo Editor, and to any other editor when that app
+     * is not installed. A soft dependency: the gallery has no idea whether the editor
+     * exists, and nothing here can fail the viewer.
+     */
+    private fun edit(item: MediaItem) {
+        if (item.isVideo) {
+            host.toast("The editor handles photos, not videos.")
+            return
+        }
+        NijatvaMediaIntents.editImage(
+            context,
+            item.uri.toString(),
+            item.mimeType.ifBlank { "image/*" },
+        )
+    }
+
     private fun buildBar(): View {
         val bar = LinearLayout(context).apply {
             orientation = LinearLayout.HORIZONTAL
@@ -110,6 +128,7 @@ class ViewerPage(
         bar.addView(iconButton(Glyph.Kind.BACK) { host.back() })
         bar.addView(counter, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
         bar.addView(iconButton(Glyph.Kind.SHARE) { current()?.let { host.share(it) } })
+        bar.addView(iconButton(Glyph.Kind.EDIT) { current()?.let { edit(it) } })
         bar.addView(iconButton(Glyph.Kind.INFO) { current()?.let { showInfo(it) } })
         return bar
     }

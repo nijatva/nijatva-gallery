@@ -24,7 +24,7 @@ class Glyph(
     private val sizeDp: Int = 24,
 ) : View(context) {
 
-    enum class Kind { BACK, MORE, GRID, FOLDERS, GEAR, SHARE, INFO, PLAY, CLOSE, CHECK, THEME, SETTINGS, CAMERA }
+    enum class Kind { BACK, MORE, GRID, FOLDERS, GEAR, SHARE, INFO, PLAY, CLOSE, CHECK, THEME, SETTINGS, CAMERA, EDIT }
 
     private val stroke = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
@@ -107,6 +107,20 @@ class Glyph(
                 val body = android.graphics.RectF(left, top + s * 0.16f, right, bottom - s * 0.08f)
                 canvas.drawRoundRect(body, s * 0.12f, s * 0.12f, stroke)
                 canvas.drawCircle(w / 2f, h * 0.54f, s * 0.17f, stroke)
+            }
+
+            Kind.EDIT -> {
+                // A pencil at forty-five degrees: body, ferrule line, and the tip.
+                val body = Path().apply {
+                    moveTo(w * 0.34f, h * 0.66f)
+                    lineTo(w * 0.66f, h * 0.34f)
+                    lineTo(w * 0.78f, h * 0.46f)
+                    lineTo(w * 0.46f, h * 0.78f)
+                    close()
+                }
+                canvas.drawPath(body, stroke)
+                canvas.drawLine(w * 0.34f, h * 0.66f, w * 0.22f, h * 0.78f, stroke)
+                canvas.drawLine(w * 0.22f, h * 0.78f, w * 0.34f, h * 0.74f, stroke)
             }
 
             Kind.GRID -> {
