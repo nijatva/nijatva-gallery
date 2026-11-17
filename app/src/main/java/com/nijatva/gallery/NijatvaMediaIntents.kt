@@ -34,6 +34,13 @@ object NijatvaMediaIntents {
         false
     }
 
+    /**
+     * A family app answers to its release id and, when it was built as a debug APK, to
+     * `<id>.debug` as well. Both are tried: the editor's debug build installs under the
+     * suffixed id, and a single hardcoded id is why the hand-off used to find nothing.
+     */
+    private fun ids(pkg: String): List<String> = listOf(pkg, pkg + ".debug")
+
     private fun startOn(context: Context, intent: Intent, pkg: String): Boolean = try {
         context.startActivity(Intent(intent).setPackage(pkg))
         true
@@ -42,6 +49,10 @@ object NijatvaMediaIntents {
     } catch (e: Exception) {
         false
     }
+
+    /** Tries the release id, then the debug id. */
+    private fun startOnFamily(context: Context, intent: Intent, pkg: String): Boolean =
+        ids(pkg).any { startOn(context, intent, it) }
 
     private fun startAny(context: Context, intent: Intent, title: String): Boolean = try {
         context.startActivity(Intent.createChooser(intent, title))
@@ -68,14 +79,33 @@ object NijatvaMediaIntents {
         return startAny(context, intent, "Open in") || nothingFound(context, "open this item")
     }
 
-    /** ACTION_EDIT in Nijatva Photo Editor, else any editor. */
+    /**
+     * ACTION_EDIT in Nijatva Photo Editor, else any editor.
+     *
+     * Four attempts, in order: EDIT aimed at the editor (release id, then debug id), SEND
+     * aimed at the editor, the system's "Edit with" chooser, and only then the message.
+     * The SEND step exists because an editor build that advertises only SEND still opens
+     * the photo, and a chooser labelled "Edit with" that is really a share sheet would
+     * be a lie.
+     */
     fun editImage(context: Context, uri: String, mime: String? = "image/*"): Boolean {
-        val intent = Intent(Intent.ACTION_EDIT).apply {
-            setDataAndType(Uri.parse(uri), mime ?: "image/*")
+        val type = mime ?: "image/*"
+        val parsed = Uri.parse(uri)
+
+        val edit = Intent(Intent.ACTION_EDIT).apply {
+            setDataAndType(parsed, type)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         }
-        if (startOn(context, intent, PHOTO_EDITOR)) return true
-        return startAny(context, intent, "Edit with") || nothingFound(context, "edit this image")
+        if (startOnFamily(context, edit, PHOTO_EDITOR)) return true
+
+        val send = Intent(Intent.ACTION_SEND).apply {
+            this.type = type
+            putExtra(Intent.EXTRA_STREAM, parsed)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        if (startOnFamily(context, send, PHOTO_EDITOR)) return true
+
+        return startAny(context, edit, "Edit with") || nothingFound(context, "edit this image")
     }
 
     /** Play a video in Nijatva Video Player, else any player. */

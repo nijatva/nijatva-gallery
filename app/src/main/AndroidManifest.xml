@@ -11,24 +11,39 @@
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
 
-        <!-- Nijatva family: needed on Android 11+ to see and launch these apps -->
+    <!-- Nijatva family: needed on Android 11+ to see and launch these apps. The
+         .debug ids matter: a debug build of a sibling app installs under its own
+         applicationId, and without them the hand-off silently finds nothing. -->
     <queries>
         <package android:name="com.nijatva.photos" />
+        <package android:name="com.nijatva.photos.debug" />
         <package android:name="com.nijatva.gallery" />
+        <package android:name="com.nijatva.gallery.debug" />
         <package android:name="com.nijatva.camera" />
+        <package android:name="com.nijatva.camera.debug" />
         <package android:name="com.nijatva.photo.editor" />
+        <package android:name="com.nijatva.photo.editor.debug" />
         <package android:name="com.nijatva.videoplayer" />
+        <package android:name="com.nijatva.videoplayer.debug" />
         <package android:name="com.nijatva.music.player" />
+        <package android:name="com.nijatva.music.player.debug" />
         <package android:name="com.nijatva.file" />
+        <package android:name="com.nijatva.file.debug" />
         <package android:name="in.nijatva.browser" />
-        <package android:name="com.nijatva.messages" />
-        <package android:name="com.nijatva.contacts" />
-        <package android:name="com.nijatva.dialer" />
-        <package android:name="com.nijatva.drive" />
-            <package android:name="com.nijatva.mini.x" />
-        <package android:name="com.nijatva.wtrlab" />
+        <package android:name="in.nijatva.browser.debug" />
+
+        <!-- Any other editor: found by what it handles, not by its package id. -->
+        <intent>
+            <action android:name="android.intent.action.EDIT" />
+            <data android:mimeType="image/*" />
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <data android:mimeType="image/*" />
+        </intent>
     </queries>
-<application
+
+    <application
         android:name=".NijatvaApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -36,12 +51,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nijatva">
-
-        <!-- The Nijatva signature, shared with every app in the suite -->
-        <activity
-            android:name="com.nijatva.signature.SignatureDeveloperActivity"
-            android:exported="false"
-            android:theme="@android:style/Theme.Material.NoActionBar" />
 
         <activity
             android:name=".MainActivity"
@@ -86,13 +95,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/share_paths" />
         </provider>
-            <!-- Nijatva signature: who made this build, for anyone who inspects the APK -->
-        <meta-data android:name="developer.name" android:value="Vasudev Dangaya" />
-        <meta-data android:name="developer.origin" android:value="India" />
-        <meta-data android:name="developer.site" android:value="https://vasudev-work.github.io" />
-        <meta-data android:name="nijatva.suite" android:value="Nijatva" />
-        <meta-data android:name="nijatva.signature" android:value="com.nijatva.signature" />
-
-</application>
+    </application>
 
 </manifest>

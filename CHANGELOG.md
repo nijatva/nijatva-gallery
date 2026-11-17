@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.5 — 17 November 2026
+
+- **Edit now actually reaches the editor.** A debug build of a Nijatva app installs under
+  its own id (`com.nijatva.photo.editor.debug`), and the gallery only ever asked for the
+  release id — so the hand-off found nothing and said "No app found to edit this image".
+  Both ids are now tried, and `<queries>` lists both, because Android 11+ hides an
+  invisible package from an explicit start.
+- `editImage` falls back to `ACTION_SEND` aimed at the editor before showing the chooser:
+  an editor build that advertises only SEND still opens the photo.
+- `<queries>` also matches by capability (`EDIT`/`SEND` for `image/*`), so a third-party
+  editor is found without naming its package.
+
 ## 0.1.4 — 17 November 2026
 
 - An **Edit** button in the viewer. It hands the photo to Nijatva Photo Editor
