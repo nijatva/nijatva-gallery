@@ -93,7 +93,7 @@ class DeveloperPage(context: Context, private val host: Host) : LinearLayout(con
         card.addView(gap(context, 14))
         card.addView(contact("Location", "India"))
         card.addView(contact("Website", "vasudev-work.github.io"))
-        card.addView(contact("Email", "Vasudev.Social@rediffmail.com"))
+        card.addView(contact("Email", "Vasudev.work@rediffmail.com"))
 
         card.addView(
             label(context, "View GitHub Profile", 14.5f, 0xFF121214.toInt(), medium = true).apply {

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 — 17 November 2026
+
+- Developer page and the feedback mail now use `Vasudev.work@rediffmail.com`, the address
+  the rest of the suite and the site already publish.
+
 ## 0.1.2 — 15 November 2026
 
 - The app now declares the gallery intent filters, so it appears in

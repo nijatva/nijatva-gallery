@@ -160,7 +160,7 @@ class SettingsPage(context: Context, private val host: Host) : LinearLayout(cont
 
     private fun sendFeedback() {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:Vasudev.Social@rediffmail.com")
+            data = Uri.parse("mailto:Vasudev.work@rediffmail.com")
             putExtra(Intent.EXTRA_SUBJECT, "Nijatva Gallery feedback")
             putExtra(
                 Intent.EXTRA_TEXT,
@@ -170,7 +170,7 @@ class SettingsPage(context: Context, private val host: Host) : LinearLayout(cont
         try {
             context.startActivity(intent)
         } catch (e: ActivityNotFoundException) {
-            host.toast("No mail app on this phone. Write to Vasudev.Social@rediffmail.com")
+            host.toast("No mail app on this phone. Write to Vasudev.work@rediffmail.com")
         }
     }
 
