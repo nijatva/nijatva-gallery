@@ -126,4 +126,4 @@ Apache License 2.0. See [LICENSE](LICENSE).
 The launcher icon is a white flower mark on dark slate, kept as `assets/icon-source.png`
 with generated adaptive-icon layers in `res/mipmap-*`.
 
-Nijatva · a DEVIRA project · India
+Nijatva · India
