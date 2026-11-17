@@ -27,8 +27,6 @@ sealed interface Route {
 
     data object Settings : Route
 
-    data object Developer : Route
-
     data class Legal(val kind: LegalKind) : Route
 }
 
@@ -78,8 +76,6 @@ interface Host {
     fun openViewer(albumId: Long?, index: Int) = open(Route.Viewer(albumId, index))
 
     fun openSettings() = open(Route.Settings)
-
-    fun openDeveloper() = open(Route.Developer)
 
     fun openLegal(kind: LegalKind) = open(Route.Legal(kind))
 

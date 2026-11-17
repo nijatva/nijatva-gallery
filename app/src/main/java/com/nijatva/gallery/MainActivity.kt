@@ -37,7 +37,6 @@ import com.nijatva.gallery.settings.Settings
 import com.nijatva.gallery.settings.SettingsStore
 import com.nijatva.gallery.share.ExifStrip
 import com.nijatva.gallery.ui.AlbumPage
-import com.nijatva.gallery.ui.DeveloperPage
 import com.nijatva.gallery.ui.Host
 import com.nijatva.gallery.ui.HomePage
 import com.nijatva.gallery.ui.LegalPage
@@ -398,7 +397,6 @@ class MainActivity : AppCompatActivity(), Host {
             explicit = listOf(ExternalItems.describe(this, Uri.parse(route.uri))),
         )
         Route.Settings -> SettingsPage(this, this)
-        Route.Developer -> DeveloperPage(this, this)
         is Route.Legal -> LegalPage(this, this, route.kind)
     }
 

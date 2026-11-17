@@ -21,9 +21,14 @@
         <package android:name="com.nijatva.music.player" />
         <package android:name="com.nijatva.file" />
         <package android:name="in.nijatva.browser" />
+        <package android:name="com.nijatva.messages" />
+        <package android:name="com.nijatva.contacts" />
+        <package android:name="com.nijatva.dialer" />
+        <package android:name="com.nijatva.drive" />
+            <package android:name="com.nijatva.mini.x" />
+        <package android:name="com.nijatva.wtrlab" />
     </queries>
-
-    <application
+<application
         android:name=".NijatvaApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -31,6 +36,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Nijatva">
+
+        <!-- The Nijatva signature, shared with every app in the suite -->
+        <activity
+            android:name="com.nijatva.signature.SignatureDeveloperActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.Material.NoActionBar" />
 
         <activity
             android:name=".MainActivity"
@@ -75,6 +86,13 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/share_paths" />
         </provider>
-    </application>
+            <!-- Nijatva signature: who made this build, for anyone who inspects the APK -->
+        <meta-data android:name="developer.name" android:value="Vasudev Dangaya" />
+        <meta-data android:name="developer.origin" android:value="India" />
+        <meta-data android:name="developer.site" android:value="https://vasudev-work.github.io" />
+        <meta-data android:name="nijatva.suite" android:value="Nijatva" />
+        <meta-data android:name="nijatva.signature" android:value="com.nijatva.signature" />
+
+</application>
 
 </manifest>

@@ -16,6 +16,8 @@ import androidx.appcompat.widget.SwitchCompat
 import com.nijatva.gallery.BuildConfig
 import com.nijatva.gallery.settings.SortOrder
 import com.nijatva.gallery.settings.ThemeChoice
+import com.nijatva.signature.Signature
+import com.nijatva.signature.SignatureTheme
 
 /**
  * The settings screen.
@@ -101,7 +103,18 @@ class SettingsPage(context: Context, private val host: Host) : LinearLayout(cont
         content.addView(row("Open-source licences") { host.openLegal(LegalKind.LICENCES) })
         content.addView(row("Privacy policy") { host.openLegal(LegalKind.PRIVACY) })
         content.addView(row("Terms of Service") { host.openLegal(LegalKind.TERMS) })
-        content.addView(row("Developer", "Vasudev Dangaya") { host.openDeveloper() })
+        content.addView(
+            row("Developer", "Vasudev Dangaya") {
+                // The card is drawn by the shared signature kit; hand it this app's
+                // current surface and accent so it does not open in a different theme.
+                SignatureTheme.setTheme(
+                    context,
+                    if (Palette.isLight) SignatureTheme.LIGHT else SignatureTheme.DARK,
+                )
+                SignatureTheme.setAccent(context, host.settings.accent.argb)
+                context.startActivity(Signature.developer(context))
+            },
+        )
 
         content.addView(footer())
 
