@@ -17,15 +17,27 @@ android {
         resValue("string", "app_name", "Nijatva Gallery")
     }
 
-    // A debug-only key, committed on purpose: the APKs this project hands out are debug
-    // builds, and a key that changes with every machine makes every install an uninstall.
-    // It signs nothing that goes to a store, and the passwords are not secrets.
+    // A debug-only key, committed on purpose: the debug APKs this project hands out keep
+    // one signature, and a key that changes with every machine makes every install an
+    // uninstall. It signs nothing that goes to a store, and its password is not a secret.
+    //
+    // It must never sign a release build. A key anyone can read cannot protect an update:
+    // whoever holds this file can produce an APK that looks like a Nijatva Gallery update.
+    // Release signing therefore comes from the environment, and is absent by default.
     signingConfigs {
         create("nijatva") {
             storeFile = rootProject.file("keystore/nijatva-debug.jks")
             storePassword = "nijatva"
             keyAlias = "nijatva"
             keyPassword = "nijatva"
+        }
+        if (System.getenv("NIJATVA_KEYSTORE") != null) {
+            create("release") {
+                storeFile = file(System.getenv("NIJATVA_KEYSTORE"))
+                storePassword = System.getenv("NIJATVA_STORE_PASSWORD")
+                keyAlias = System.getenv("NIJATVA_KEY_ALIAS")
+                keyPassword = System.getenv("NIJATVA_KEY_PASSWORD")
+            }
         }
     }
 
@@ -36,7 +48,11 @@ android {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("nijatva")
+            // No key in the environment means an unsigned release APK, which the suite's
+            // index refuses to publish. That is the intended failure: silent, but not shipped.
+            if (System.getenv("NIJATVA_KEYSTORE") != null) {
+                signingConfig = signingConfigs.getByName("release")
+            }
         }
     }
 
