@@ -32,11 +32,7 @@ android {
             keyPassword = "nijatva"
         }
         if (System.getenv("NIJATVA_KEYSTORE") != null) {
-            create("release") {
-                storeFile = file(System.getenv("NIJATVA_KEYSTORE"))
-                storePassword = System.getenv("NIJATVA_STORE_PASSWORD")
-                keyAlias = System.getenv("NIJATVA_KEY_ALIAS")
-                keyPassword = System.getenv("NIJATVA_KEY_PASSWORD")
+            
             }
         }
     }
