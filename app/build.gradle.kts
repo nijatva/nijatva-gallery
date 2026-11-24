@@ -25,21 +25,12 @@ android {
     // whoever holds this file can produce an APK that looks like a Nijatva Gallery update.
     // Release signing therefore comes from the environment, and is absent by default.
     signingConfigs {
-        create("nijatva") {
-            storeFile = rootProject.file("keystore/nijatva-debug.jks")
-            storePassword = "nijatva"
-            keyAlias = "nijatva"
-            keyPassword = "nijatva"
         }
         if (System.getenv("NIJATVA_KEYSTORE") != null) {
             
             }
         }
     }
-
-    buildTypes {
-        debug {
-            signingConfig = signingConfigs.getByName("nijatva")
         }
         release {
             isMinifyEnabled = false
