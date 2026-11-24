@@ -12,3 +12,9 @@ app/build/
 build/
 hs_err_pid*.log
 core.*
+   # Signing material never belongs in the repository.
+   keystore/
+   *.jks
+   *.keystore
+   *.p12
+   *.pfx
