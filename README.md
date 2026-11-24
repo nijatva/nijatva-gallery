@@ -107,11 +107,11 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 and uploads it as a workflow artifact, so a build does not depend on any one machine.
 
 ### Signing
-
-`keystore/nijatva-debug.jks` is committed on purpose. Every APK this project hands out is
-a debug build, and a key that changes with every machine makes every install an uninstall.
-Alias `nijatva`, store and key password `nijatva`. It signs nothing that goes to a store.
-
+   Debug builds use the standard debug keystore Gradle generates on each machine. An earlier
+   version committed a shared debug key so debug APKs kept one signature across machines; it
+   was removed, because a key in a public repository lets anyone sign an APK that installs
+   over a debug install. Release signing comes from `NIJATVA_*` environment variables and is
+   absent by default.
 ## Permissions
 
 | Android version | Asked for | Why |
